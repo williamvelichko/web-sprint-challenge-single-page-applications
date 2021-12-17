@@ -15,14 +15,18 @@ export default function PizzaForm(props) {
 
   return (
     <div className="pizza-form" onSubmit={onSubmit}>
-      <img src={props.users.picture2} alt="users" />
+      <img
+        src="https://media.istockphoto.com/photos/bakery-chef-prepare-pizza-picture-id1291299956?b=1&k=20&m=1291299956&s=170667a&w=0&h=Ys_FLtdY0Uzc7yTQl6JzvCHTQ3eRAuqNNU4x8EX1FB8="
+        alt="users"
+      />
       <div className="name-input">
         <h2>Build Your Own Pizza</h2>
         <div className="size-dropdown">
           <label>
             <h3>Choice of Size</h3>
+            <div className="errors">{errors.size}</div>
             <select value={value.size} onChange={onChange} name="size">
-              <option value="">--select size--</option>\
+              <option value="">--select size--</option>
               <option value="small">small</option>
               <option value="medium">medium</option>
               <option value="large">large</option>
@@ -75,8 +79,8 @@ export default function PizzaForm(props) {
             <p>Pepperoni</p>
             <input
               type="checkbox"
-              name="pepporoni"
-              checked={value.pepporoni}
+              name="pepperoni"
+              checked={value.pepperoni}
               onChange={onChange}
             />
           </label>

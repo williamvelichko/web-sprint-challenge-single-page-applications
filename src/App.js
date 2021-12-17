@@ -1,14 +1,12 @@
-import React, { useState } from "react";
-import { Link, Route, Switch, useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, Route } from "react-router-dom";
 import Home from "./components/Home";
 import PizzaForm from "./components/PizzaForm";
 import "./App.css";
-const info = {
-  picture:
-    "https://cdn.pixabay.com/photo/2020/05/17/04/22/pizza-5179939__480.jpg",
-  picture2:
-    "https://media.istockphoto.com/photos/bakery-chef-prepare-pizza-picture-id1291299956?b=1&k=20&m=1291299956&s=170667a&w=0&h=Ys_FLtdY0Uzc7yTQl6JzvCHTQ3eRAuqNNU4x8EX1FB8=",
-};
+import axios from "axios";
+import formScheme from "./components/FormScheme";
+import * as yup from "yup";
+
 const initialFormValues = {
   size: "",
   redSauce: false,
@@ -35,16 +33,36 @@ const initialFormValues = {
   extraStuff: "",
   amount: "",
 };
+const initialFormErrors = {
+  size: "",
+};
 
 const App = () => {
-  const [users, setUsers] = useState(info);
+  const [users, setUsers] = useState([]);
   const [formValues, setFormValues] = useState(initialFormValues);
-  const [formErrors, setFormErrors] = useState("");
+  const [formErrors, setFormErrors] = useState(initialFormErrors);
   const [disabled, setDisabled] = useState(true);
 
-  const getOrder = () => {};
+  const getOrder = (newOrder) => {
+    axios
+      .post("https://reqres.in/api/orders", newOrder)
+      .then((resp) => {
+        console.log(resp.data);
+        setUsers([resp.data, ...users]);
+      })
+      .catch((err) => console.error(err))
+      .finally(() => setFormValues(initialFormValues));
+  };
+  const validate = (name, value) => {
+    yup
+      .reach(formScheme, name)
+      .validate(value)
+      .then(() => setFormErrors({ ...formErrors, [name]: "" }))
+      .catch((err) => setFormErrors({ ...formErrors, [name]: err.errors[0] }));
+  };
 
   const inputChange = (name, value) => {
+    validate(name, value);
     setFormValues({ ...formValues, [name]: value });
   };
 
@@ -60,10 +78,31 @@ const App = () => {
         "spinachAlfredo",
       ].filter((sauce) => !!formValues[sauce]),
 
-      toppings: ["pepperoni"],
+      toppings: [
+        "pepperoni",
+        "canadianBacon",
+        "grilledChicken",
+        "onions",
+        "greenPepper",
+        "dicedTomatos",
+        "blackOlives",
+        "threeCheese",
+        "pineapple",
+        "extraStuff",
+      ].filter((topping) => !!formValues[topping]),
+
+      glutenItem: ["glutenFree"].filter((gluten) => !!formValues[gluten]),
     };
+    getOrder(newOrder);
   };
 
+  useEffect(() => {
+    getOrder();
+  }, []);
+
+  useEffect(() => {
+    formScheme.isValid(formValues).then((valid) => setDisabled(!valid));
+  }, [formValues]);
   return (
     <div className="order-pizza">
       <header>
