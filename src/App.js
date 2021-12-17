@@ -14,7 +14,7 @@ const initialFormValues = {
   redSauce: false,
   garlicRanch: false,
   bbqSauce: false,
-  spinachRanch: false,
+  spinachAlfredo: false,
 
   pepperoni: false,
   sausage: false,
@@ -33,6 +33,7 @@ const initialFormValues = {
 
   glutenFree: false,
   extraStuff: "",
+  amount: "",
 };
 
 const App = () => {
@@ -41,9 +42,27 @@ const App = () => {
   const [formErrors, setFormErrors] = useState("");
   const [disabled, setDisabled] = useState(true);
 
-  const inputChange = (name, value) => {};
+  const getOrder = () => {};
 
-  const formSubmit = () => {};
+  const inputChange = (name, value) => {
+    setFormValues({ ...formValues, [name]: value });
+  };
+
+  const formSubmit = () => {
+    const newOrder = {
+      size: formValues.size.trim(),
+      extraStuff: formValues.extraStuff.trim(),
+
+      SauceChoice: [
+        "redSauce",
+        "garlicRanch",
+        "bbbqSauce",
+        "spinachAlfredo",
+      ].filter((sauce) => !!formValues[sauce]),
+
+      toppings: ["pepperoni"],
+    };
+  };
 
   return (
     <div className="order-pizza">

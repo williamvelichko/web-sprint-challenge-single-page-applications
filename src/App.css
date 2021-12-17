@@ -66,3 +66,11 @@ img {
 .pizza-form img {
   height: 100vh;
 }
+.name-input {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.size-dropdown {
+  display: flex;
+}
