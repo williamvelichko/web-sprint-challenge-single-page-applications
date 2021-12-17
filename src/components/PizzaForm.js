@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function PizzaForm(props) {
   const { value, submit, change, disabled, errors } = props;
@@ -14,14 +15,26 @@ export default function PizzaForm(props) {
   };
 
   return (
-    <div className="pizza-form" onSubmit={onSubmit}>
+    <div id="pizza-form" onSubmit={onSubmit}>
       <img
         src="https://media.istockphoto.com/photos/bakery-chef-prepare-pizza-picture-id1291299956?b=1&k=20&m=1291299956&s=170667a&w=0&h=Ys_FLtdY0Uzc7yTQl6JzvCHTQ3eRAuqNNU4x8EX1FB8="
         alt="users"
       />
-      <div className="name-input">
+      <div id="pizza-form">
         <h2>Build Your Own Pizza</h2>
-        <div className="size-dropdown">
+        <div id="name-input">
+          <label>
+            <h3>Name</h3>
+            <div className="errors">{errors.name}</div>
+            <input
+              value={value.name}
+              onChange={onChange}
+              name="name"
+              type="text"
+            />
+          </label>
+        </div>
+        <div id="size-dropdown">
           <label>
             <h3>Choice of Size</h3>
             <div className="errors">{errors.size}</div>
@@ -36,39 +49,44 @@ export default function PizzaForm(props) {
         </div>
         <div className="sauce-form">
           <h3>Choice of Sauce</h3>
+          <div className="errors">{errors.sauce}</div>
           <label>
             <p>Original Red</p>
             <input
-              type="checkbox"
-              name="redSauce"
-              checked={value.redSauce}
+              type="radio"
+              name="sauce"
+              value="originalRed"
+              checked={value.sauce === "originalRed"}
               onChange={onChange}
             />
           </label>
           <label>
             <p>Garlic Ranch</p>
             <input
-              type="checkbox"
-              name="garlicRanch"
-              checked={value.garlicRanch}
+              type="radio"
+              name="sauce"
+              value="garlicRanch"
+              checked={value.sauce === "garlicRanch"}
               onChange={onChange}
             />
           </label>
           <label>
             <p>BBQ Sauce</p>
             <input
-              type="checkbox"
-              name="bbqSauce"
-              checked={value.bbqSauce}
+              type="radio"
+              name="sauce"
+              value="bbqSauce"
+              checked={value.sauce === "bbqSauce"}
               onChange={onChange}
             />
           </label>
           <label>
             <p>Spinach Alfredo</p>
             <input
-              type="checkbox"
-              name="spinachAlfredo"
-              checked={value.spinachAlfredo}
+              type="radio"
+              name="sauce"
+              value="spinachAlfredo"
+              checked={value.sauce === "spinachAlfredo"}
               onChange={onChange}
             />
           </label>
@@ -180,7 +198,7 @@ export default function PizzaForm(props) {
           </label>
         </div>
 
-        <div className="special-text">
+        <div id="special-text">
           <label>
             <h2>Special Instructions</h2>
             <input
@@ -191,8 +209,13 @@ export default function PizzaForm(props) {
             />
           </label>
         </div>
-        <div className="order-button">
-          <button disabled={disabled}>Add to Order</button>
+        <div id="order-button">
+          <Link to="/finalOrder">
+            {" "}
+            <button type="button" disabled={disabled}>
+              Add to Order
+            </button>
+          </Link>
         </div>
       </div>
     </div>

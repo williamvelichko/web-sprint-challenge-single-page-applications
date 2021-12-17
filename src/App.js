@@ -6,13 +6,17 @@ import "./App.css";
 import axios from "axios";
 import formScheme from "./components/FormScheme";
 import * as yup from "yup";
+import FinalPage from "./components/finalPage";
 
 const initialFormValues = {
   size: "",
-  redSauce: false,
-  garlicRanch: false,
-  bbqSauce: false,
-  spinachAlfredo: false,
+
+  sauce: "",
+  name: "",
+  // redSauce: false,
+  // garlicRanch: false,
+  // bbqSauce: false,
+  // spinachAlfredo: false,
 
   pepperoni: false,
   sausage: false,
@@ -35,6 +39,8 @@ const initialFormValues = {
 };
 const initialFormErrors = {
   size: "",
+  name: "",
+  sauce: "",
 };
 
 const App = () => {
@@ -43,12 +49,21 @@ const App = () => {
   const [formErrors, setFormErrors] = useState(initialFormErrors);
   const [disabled, setDisabled] = useState(true);
 
+  const getPizza = () => {
+    axios
+      .get("https://reqres.in/api/orders")
+      .then((resp) => {
+        setUsers(resp.data.data);
+      })
+      .catch((err) => console.error(err));
+  };
+
   const getOrder = (newOrder) => {
     axios
       .post("https://reqres.in/api/orders", newOrder)
       .then((resp) => {
-        console.log(resp.data);
-        setUsers([resp.data, ...users]);
+        console.log(resp);
+        setUsers([resp.data.data, ...users]);
       })
       .catch((err) => console.error(err))
       .finally(() => setFormValues(initialFormValues));
@@ -70,13 +85,15 @@ const App = () => {
     const newOrder = {
       size: formValues.size.trim(),
       extraStuff: formValues.extraStuff.trim(),
+      sauce: formValues.sauce.trim(),
+      name: formValues.name.trim(),
 
-      SauceChoice: [
-        "redSauce",
-        "garlicRanch",
-        "bbbqSauce",
-        "spinachAlfredo",
-      ].filter((sauce) => !!formValues[sauce]),
+      // SauceChoice: [
+      //   "redSauce",
+      //   "garlicRanch",
+      //   "bbbqSauce",
+      //   "spinachAlfredo",
+      // ].filter((sauce) => !!formValues[sauce]),
 
       toppings: [
         "pepperoni",
@@ -97,14 +114,14 @@ const App = () => {
   };
 
   useEffect(() => {
-    getOrder();
+    getPizza();
   }, []);
 
   useEffect(() => {
     formScheme.isValid(formValues).then((valid) => setDisabled(!valid));
   }, [formValues]);
   return (
-    <div className="order-pizza">
+    <div id="order-pizza">
       <header>
         <nav>
           <Link to="/">Home</Link>
@@ -126,6 +143,9 @@ const App = () => {
           disabled={disabled}
           errors={formErrors}
         />
+      </Route>
+      <Route path="/finalOrder">
+        <FinalPage />
       </Route>
     </div>
   );

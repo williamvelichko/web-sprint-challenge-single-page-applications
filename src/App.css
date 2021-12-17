@@ -63,14 +63,23 @@ img {
   font-size: 2rem;
   background-color: white;
 }
-.pizza-form img {
+#pizza-form img {
   height: 100vh;
 }
-.name-input {
+
+#pizza-form {
   display: flex;
+  align-items: center;
   justify-content: center;
   flex-direction: column;
 }
-.size-dropdown {
+.sauce-form {
   display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.sauce-form label {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
