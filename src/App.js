@@ -67,6 +67,7 @@ const App = () => {
       .catch((err) => console.error(err))
       .finally(() => setFormValues(initialFormValues));
   };
+
   const validate = (name, value) => {
     yup
       .reach(formScheme, name)
