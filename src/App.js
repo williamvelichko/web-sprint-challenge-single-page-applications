@@ -62,7 +62,6 @@ const App = () => {
     axios
       .post("https://reqres.in/api/orders", newOrder)
       .then((resp) => {
-        console.log(resp);
         setUsers([resp.data.data, ...users]);
       })
       .catch((err) => console.error(err))

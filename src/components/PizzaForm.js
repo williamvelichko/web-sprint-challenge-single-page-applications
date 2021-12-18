@@ -20,7 +20,7 @@ export default function PizzaForm(props) {
         src="https://media.istockphoto.com/photos/bakery-chef-prepare-pizza-picture-id1291299956?b=1&k=20&m=1291299956&s=170667a&w=0&h=Ys_FLtdY0Uzc7yTQl6JzvCHTQ3eRAuqNNU4x8EX1FB8="
         alt="users"
       />
-      <div id="pizza-form">
+      <div id="order-pizza">
         <h2>Build Your Own Pizza</h2>
         <div id="name-input">
           <label>
@@ -31,6 +31,7 @@ export default function PizzaForm(props) {
               onChange={onChange}
               name="name"
               type="text"
+              className="input-box"
             />
           </label>
         </div>
@@ -38,7 +39,12 @@ export default function PizzaForm(props) {
           <label>
             <h3>Choice of Size</h3>
             <div className="errors">{errors.size}</div>
-            <select value={value.size} onChange={onChange} name="size">
+            <select
+              value={value.size}
+              onChange={onChange}
+              name="size"
+              className="input-box"
+            >
               <option value="">--select size--</option>
               <option value="small">small</option>
               <option value="medium">medium</option>
@@ -206,13 +212,14 @@ export default function PizzaForm(props) {
               onChange={onChange}
               name="extraStuff"
               type="text"
+              className="input-box"
             />
           </label>
         </div>
         <div id="order-button">
           <Link to="/finalOrder">
             {" "}
-            <button type="button" disabled={disabled}>
+            <button type="button" disabled={disabled} className="input-box">
               Add to Order
             </button>
           </Link>
