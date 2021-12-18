@@ -14,4 +14,10 @@ describe("app", () => {
       .type("Who likes CSS anyways?")
       .should("have.value", "Who likes CSS anyways?");
   });
+  it("can submit button", () => {
+    textInput().type("william");
+    cy.get("select").select("small");
+    cy.get("input[type=radio]").first().check();
+    cy.get("button").click();
+  });
 });
